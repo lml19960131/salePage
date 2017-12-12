@@ -9,7 +9,7 @@
             <li class="nav-pile">|</li>
             <li>注册</li>
             <li class="nav-pile">|</li>
-            <li>关于</li>
+            <li @click="aboutClick">关于</li>
           </ul>
         </div>
       </div>
@@ -22,11 +22,27 @@
     <div class="app-foot">
       <p>© 2016 fishenal MIT</p>
     </div>
+    <my-dialog :is-show="isShowAboutDialog">123</my-dialog>
   </div>
 </template>
 
 <script>
-
+  import dialog from './baseComponents/dialog.vue'
+  export default{
+    components:{
+      myDialog : dialog
+    },
+    data(){
+      return{
+        isShowAboutDialog: false
+      }
+    },
+    methods:{
+      aboutClick(){
+        this.isShowAboutDialog = true
+      }
+    }
+  }
 </script>
 
 <style>

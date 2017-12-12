@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import slideShow from '../components/baseComponents/slideShow.vue'
+  import slideShow from '../components/slideShow.vue'
 
   export default{
     components:{
