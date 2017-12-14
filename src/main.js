@@ -22,11 +22,8 @@ let router = new VueRouter({
     {
       path: '/detail',
       component: detail,
+      redirect: '/detail/analysis',
       children:[
-        {
-          path: 'analysis',
-          component: analysis
-        },
         {
           path: 'count',
           component: count
@@ -34,6 +31,10 @@ let router = new VueRouter({
         {
           path: 'forecast',
           component: forecast
+        },
+        {
+          path: 'analysis',
+          component: analysis
         },
         {
           path: 'publish',

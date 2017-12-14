@@ -33,7 +33,8 @@
             <h2>{{item.title}}</h2>
             <p>{{item.description}}</p>
             <div class="index-board-button">
-              <a href="" class="button">立即购买</a>
+              <router-link class="button" :to="{path: 'detail/' + item.toKey}">
+                立即购买</router-link>
             </div>
           </div>
         </div>
@@ -139,7 +140,7 @@
           {
             src: require('../assets/slideShow/pic3.jpg'),
             title: 'xxx3',
-            href: 'http://xxx.xxx.com'
+            href: 'detail/publish'
           },
           {
             src: require('../assets/slideShow/pic4.jpg'),
@@ -152,14 +153,14 @@
             title: '开放产品',
             description: '开放产品是一款开放产品',
             id: 'car',
-            toKey: 'analysis',
+            toKey: 'count',
             saleout: false
           },
           {
             title: '品牌营销',
             description: '品牌营销帮助你的产品更好地找到定位',
             id: 'earth',
-            toKey: 'count',
+            toKey: 'analysis',
             saleout: false
           },
           {
