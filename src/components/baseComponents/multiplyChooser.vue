@@ -40,7 +40,7 @@
         }
         let nowObjArray = _.map(this.nowIndexes, (idx) => {
           return this.selections[idx]
-        })
+        });
         this.$emit('on-change', nowObjArray)
       },
       checkActive (index) {

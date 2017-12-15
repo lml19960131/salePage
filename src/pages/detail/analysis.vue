@@ -10,6 +10,7 @@
           购买数量：
         </div>
         <div class="sales-board-line-right">
+          <v-counter @on-change="onParamChange('buyNum', $event)"></v-counter>
         </div>
       </div>
       <div class="sales-board-line">
@@ -17,7 +18,7 @@
           产品类型：
         </div>
         <div class="sales-board-line-right">
-          <Vselection :selections="buyTypes"></Vselection>
+          <Vselection :selections="buyTypes" @on-change="onParamChange('buyType', $event)"></Vselection>
         </div>
       </div>
       <div class="sales-board-line">
@@ -25,6 +26,7 @@
           有效时间：
         </div>
         <div class="sales-board-line-right">
+          <v-chooser :selections="periodList" @on-change="onParamChange('period', $event)"></v-chooser>
         </div>
       </div>
       <div class="sales-board-line">
@@ -32,6 +34,7 @@
           产品版本：
         </div>
         <div class="sales-board-line-right">
+          <v-mul-chooser :selections="versionList"  @on-change="onParamChange('versions', $event)"></v-mul-chooser>
         </div>
       </div>
       <div class="sales-board-line">
@@ -76,10 +79,17 @@
 
 <script type="text/ecmascript-6">
   import Vselection from '../../components/baseComponents/selection.vue'
+  import VCounter from '../../components/baseComponents/counter.vue'
+  import VChooser from '../../components/baseComponents/chooser.vue'
+  import VMulChooser from '../../components/baseComponents/multiplyChooser.vue'
+  import _ from 'lodash'
 
   export default{
     components:{
-      Vselection
+      Vselection,
+      VCounter,
+      VChooser,
+      VMulChooser
     },
     data(){
       return{
@@ -136,7 +146,28 @@
         isShowCheckOrder: false,
         isShowErrDialog: false
       }
-    }
+    },
+    methods: {
+      onParamChange (attr, val) {
+        this[attr] = val;
+        this.getPrice()
+      },
+      getPrice(){
+        let reqParams={
+          buyNumber: this.buyNumber,
+          buyType: this.buyType,
+          period: this.period,
+          versions: buyVersionsArray.join(',')
+        };
+        let buyVersionsArray = _.map(this.versions,(item)=>{
+          return item.value
+        });
+        this.$http.post('api/getPrice', reqParams)
+          .then((res)=>{
+            this.price=data.amount;
+          })
+      }
+    },
   }
 </script>
 
