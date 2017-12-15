@@ -48,7 +48,7 @@
       <div class="sales-board-line">
         <div class="sales-board-line-left">&nbsp;</div>
         <div class="sales-board-line-right">
-          <div class="button">
+          <div class="button" @click="showPayDialog">
             立即购买
           </div>
         </div>
@@ -74,6 +74,31 @@
         <li>用户所在地理区域分布状况等</li>
       </ul>
     </div>
+    <my-dialog :is-show="isShowPayDialog" @on-close="hidePayDialog">
+      <table class="buy-dialog-table">
+        <tr>
+          <th>购买数量</th>
+          <th>产品类型</th>
+          <th>有效时间</th>
+          <th>产品版本</th>
+          <th>总价</th>
+        </tr>
+        <tr>
+          <td>{{ buyNum }}</td>
+          <td>{{ buyType.label }}</td>
+          <td>{{ period.label }}</td>
+          <td>
+            <span v-for="item in versions">{{ item.label }}</span>
+          </td>
+          <td>{{ price }}</td>
+        </tr>
+      </table>
+      <h3 class="buy-dialog-title">请选择银行</h3>
+      <bank-chooser @on-change="onChangeBanks"></bank-chooser>
+      <div class="button buy-dialog-btn">
+        确认购买
+      </div>
+    </my-dialog>
   </div>
 </template>
 
@@ -82,22 +107,28 @@
   import VCounter from '../../components/baseComponents/counter.vue'
   import VChooser from '../../components/baseComponents/chooser.vue'
   import VMulChooser from '../../components/baseComponents/multiplyChooser.vue'
+  import Dialog from '../../components/baseComponents/dialog.vue'
+  import BankChooser from '../../components/bankChooser.vue'
   import _ from 'lodash'
+
 
   export default{
     components:{
       Vselection,
       VCounter,
       VChooser,
-      VMulChooser
+      VMulChooser,
+      MyDialog: Dialog,
+      BankChooser
     },
     data(){
       return{
         buyNum: 0,
         buyType: {},
-        versions: [],
         period: {},
+        versions: [],
         price: 0,
+        isShowDialog : false,
         versionList: [
           {
             label: '客户版',
@@ -155,8 +186,8 @@
       getPrice(){
         let reqParams={
           buyNumber: this.buyNumber,
-          buyType: this.buyType,
-          period: this.period,
+          buyType: this.buyType.value,
+          period: this.period.value,
           versions: buyVersionsArray.join(',')
         };
         let buyVersionsArray = _.map(this.versions,(item)=>{
@@ -164,13 +195,51 @@
         });
         this.$http.post('api/getPrice', reqParams)
           .then((res)=>{
-            this.price=data.amount;
+//            this.price=data.amount;
           })
+      },
+      showPayDialog(){
+        this.isShowPayDialog = true
+      },
+      hidePayDialog(){
+        this.isShowPayDialog = false
+      },
+      onChangeBanks(bankObj){
+        this.bankId=bankObj.id;
+        console.log(this.bankId)
       }
     },
+    mounted () {
+      this.buyNum = 1;
+      this.buyType = [this.buyTypes[0]];
+      this.versions = [this.versionList[0]];
+      this.period = this.periodList[0];
+      this.getPrice()
+    }
   }
 </script>
 
-<style>
-
+<style scoped>
+  .buy-dialog-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .buy-dialog-btn {
+    margin-top: 20px;
+  }
+  .buy-dialog-table {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .buy-dialog-table td,
+  .buy-dialog-table th{
+    border: 1px solid #e3e3e3;
+    text-align: center;
+    padding: 5px 0;
+  }
+  .buy-dialog-table th {
+    background: #4fc08d;
+    color: #fff;
+    border: 1px solid #4fc08d;
+  }
 </style>
