@@ -95,10 +95,11 @@
       </table>
       <h3 class="buy-dialog-title">请选择银行</h3>
       <bank-chooser @on-change="onChangeBanks"></bank-chooser>
-      <div class="button buy-dialog-btn">
+      <div class="button buy-dialog-btn" @click="showCheckOrder">
         确认购买
       </div>
     </my-dialog>
+    <check-order :is-show-check-dialog="isShowCheckOrder"></check-order>
   </div>
 </template>
 
@@ -109,6 +110,7 @@
   import VMulChooser from '../../components/baseComponents/multiplyChooser.vue'
   import Dialog from '../../components/baseComponents/dialog.vue'
   import BankChooser from '../../components/bankChooser.vue'
+  import CheckOrder from '../../components/checkOrder.vue'
   import _ from 'lodash'
 
 
@@ -119,7 +121,8 @@
       VChooser,
       VMulChooser,
       MyDialog: Dialog,
-      BankChooser
+      BankChooser,
+      CheckOrder
     },
     data(){
       return{
@@ -207,6 +210,10 @@
       onChangeBanks(bankObj){
         this.bankId=bankObj.id;
         console.log(this.bankId)
+      },
+      showCheckOrder(){
+        this.isShowCheckOrder = true;
+        this.isShowPayDialog = false
       }
     },
     mounted () {
