@@ -20,6 +20,7 @@
 
 <script>
   import Dialog from './baseComponents/dialog.vue'
+
   export default {
     components: {
       thisDialog: Dialog
@@ -45,10 +46,10 @@
           orderId: this.orderId
         })
           .then((res) => {
-            this.isShowSuccessDialog = true
+            this.isShowSuccessDialog = true;
             this.$emit('on-close-check-dialog')
           }, (err) => {
-            this.isShowFailDialog = true
+            this.isShowFailDialog = true;
             this.$emit('on-close-check-dialog')
           })
       },

@@ -178,7 +178,7 @@
         bankId: null,
         orderId: null,
         isShowCheckOrder: false,
-        isShowErrDialog: false
+        isShowErrDialog: false,
       }
     },
     methods: {
@@ -208,7 +208,7 @@
         this.isShowPayDialog = false
       },
       onChangeBanks(bankObj){
-        this.bankId=bankObj.id;
+        this.bankId = bankObj.id;
         console.log(this.bankId)
       },
       showCheckOrder(){
